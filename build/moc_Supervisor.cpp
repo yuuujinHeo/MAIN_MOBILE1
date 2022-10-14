@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_Supervisor_t {
-    QByteArrayData data[16];
-    char stringdata0[131];
+    QByteArrayData data[21];
+    char stringdata0[183];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -35,24 +35,31 @@ static const qt_meta_stringdata_Supervisor_t qt_meta_stringdata_Supervisor = {
 QT_MOC_LITERAL(0, 0, 10), // "Supervisor"
 QT_MOC_LITERAL(1, 11, 7), // "onTimer"
 QT_MOC_LITERAL(2, 19, 0), // ""
-QT_MOC_LITERAL(3, 20, 8), // "getLineX"
-QT_MOC_LITERAL(4, 29, 12), // "QVector<int>"
-QT_MOC_LITERAL(5, 42, 5), // "index"
-QT_MOC_LITERAL(6, 48, 8), // "getLineY"
-QT_MOC_LITERAL(7, 57, 9), // "startLine"
-QT_MOC_LITERAL(8, 67, 7), // "setLine"
-QT_MOC_LITERAL(9, 75, 1), // "x"
-QT_MOC_LITERAL(10, 77, 1), // "y"
-QT_MOC_LITERAL(11, 79, 8), // "stopLine"
-QT_MOC_LITERAL(12, 88, 8), // "TOOL_NUM"
-QT_MOC_LITERAL(13, 97, 10), // "TOOL_MOUSE"
-QT_MOC_LITERAL(14, 108, 10), // "TOOL_BRUSH"
-QT_MOC_LITERAL(15, 119, 11) // "TOOL_ERASER"
+QT_MOC_LITERAL(3, 20, 13), // "getCanvasSize"
+QT_MOC_LITERAL(4, 34, 8), // "getLineX"
+QT_MOC_LITERAL(5, 43, 12), // "QVector<int>"
+QT_MOC_LITERAL(6, 56, 5), // "index"
+QT_MOC_LITERAL(7, 62, 8), // "getLineY"
+QT_MOC_LITERAL(8, 71, 12), // "getLineColor"
+QT_MOC_LITERAL(9, 84, 12), // "getLineWidth"
+QT_MOC_LITERAL(10, 97, 9), // "startLine"
+QT_MOC_LITERAL(11, 107, 5), // "color"
+QT_MOC_LITERAL(12, 113, 5), // "width"
+QT_MOC_LITERAL(13, 119, 7), // "setLine"
+QT_MOC_LITERAL(14, 127, 1), // "x"
+QT_MOC_LITERAL(15, 129, 1), // "y"
+QT_MOC_LITERAL(16, 131, 8), // "stopLine"
+QT_MOC_LITERAL(17, 140, 8), // "TOOL_NUM"
+QT_MOC_LITERAL(18, 149, 10), // "TOOL_MOUSE"
+QT_MOC_LITERAL(19, 160, 10), // "TOOL_BRUSH"
+QT_MOC_LITERAL(20, 171, 11) // "TOOL_ERASER"
 
     },
-    "Supervisor\0onTimer\0\0getLineX\0QVector<int>\0"
-    "index\0getLineY\0startLine\0setLine\0x\0y\0"
-    "stopLine\0TOOL_NUM\0TOOL_MOUSE\0TOOL_BRUSH\0"
+    "Supervisor\0onTimer\0\0getCanvasSize\0"
+    "getLineX\0QVector<int>\0index\0getLineY\0"
+    "getLineColor\0getLineWidth\0startLine\0"
+    "color\0width\0setLine\0x\0y\0stopLine\0"
+    "TOOL_NUM\0TOOL_MOUSE\0TOOL_BRUSH\0"
     "TOOL_ERASER"
 };
 #undef QT_MOC_LITERAL
@@ -63,40 +70,46 @@ static const uint qt_meta_data_Supervisor[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-       6,   14, // methods
+       9,   14, // methods
        0,    0, // properties
-       1,   58, // enums/sets
+       1,   84, // enums/sets
        0,    0, // constructors
        0,       // flags
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,   44,    2, 0x0a /* Public */,
+       1,    0,   59,    2, 0x0a /* Public */,
 
  // methods: name, argc, parameters, tag, flags
-       3,    1,   45,    2, 0x02 /* Public */,
-       6,    1,   48,    2, 0x02 /* Public */,
-       7,    0,   51,    2, 0x02 /* Public */,
-       8,    2,   52,    2, 0x02 /* Public */,
-      11,    0,   57,    2, 0x02 /* Public */,
+       3,    0,   60,    2, 0x02 /* Public */,
+       4,    1,   61,    2, 0x02 /* Public */,
+       7,    1,   64,    2, 0x02 /* Public */,
+       8,    1,   67,    2, 0x02 /* Public */,
+       9,    1,   70,    2, 0x02 /* Public */,
+      10,    2,   73,    2, 0x02 /* Public */,
+      13,    2,   78,    2, 0x02 /* Public */,
+      16,    0,   83,    2, 0x02 /* Public */,
 
  // slots: parameters
     QMetaType::Void,
 
  // methods: parameters
-    0x80000000 | 4, QMetaType::Int,    5,
-    0x80000000 | 4, QMetaType::Int,    5,
-    QMetaType::Void,
-    QMetaType::Void, QMetaType::Int, QMetaType::Int,    9,   10,
+    QMetaType::Int,
+    0x80000000 | 5, QMetaType::Int,    6,
+    0x80000000 | 5, QMetaType::Int,    6,
+    QMetaType::QString, QMetaType::Int,    6,
+    QMetaType::Double, QMetaType::Int,    6,
+    QMetaType::Void, QMetaType::QString, QMetaType::Double,   11,   12,
+    QMetaType::Void, QMetaType::Int, QMetaType::Int,   14,   15,
     QMetaType::Void,
 
  // enums: name, alias, flags, count, data
-      12,   12, 0x0,    3,   63,
+      17,   17, 0x0,    3,   89,
 
  // enum data: key, value
-      13, uint(Supervisor::TOOL_MOUSE),
-      14, uint(Supervisor::TOOL_BRUSH),
-      15, uint(Supervisor::TOOL_ERASER),
+      18, uint(Supervisor::TOOL_MOUSE),
+      19, uint(Supervisor::TOOL_BRUSH),
+      20, uint(Supervisor::TOOL_ERASER),
 
        0        // eod
 };
@@ -108,13 +121,19 @@ void Supervisor::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->onTimer(); break;
-        case 1: { QVector<int> _r = _t->getLineX((*reinterpret_cast< int(*)>(_a[1])));
+        case 1: { int _r = _t->getCanvasSize();
+            if (_a[0]) *reinterpret_cast< int*>(_a[0]) = std::move(_r); }  break;
+        case 2: { QVector<int> _r = _t->getLineX((*reinterpret_cast< int(*)>(_a[1])));
             if (_a[0]) *reinterpret_cast< QVector<int>*>(_a[0]) = std::move(_r); }  break;
-        case 2: { QVector<int> _r = _t->getLineY((*reinterpret_cast< int(*)>(_a[1])));
+        case 3: { QVector<int> _r = _t->getLineY((*reinterpret_cast< int(*)>(_a[1])));
             if (_a[0]) *reinterpret_cast< QVector<int>*>(_a[0]) = std::move(_r); }  break;
-        case 3: _t->startLine(); break;
-        case 4: _t->setLine((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
-        case 5: _t->stopLine(); break;
+        case 4: { QString _r = _t->getLineColor((*reinterpret_cast< int(*)>(_a[1])));
+            if (_a[0]) *reinterpret_cast< QString*>(_a[0]) = std::move(_r); }  break;
+        case 5: { double _r = _t->getLineWidth((*reinterpret_cast< int(*)>(_a[1])));
+            if (_a[0]) *reinterpret_cast< double*>(_a[0]) = std::move(_r); }  break;
+        case 6: _t->startLine((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< double(*)>(_a[2]))); break;
+        case 7: _t->setLine((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
+        case 8: _t->stopLine(); break;
         default: ;
         }
     }
@@ -149,13 +168,13 @@ int Supervisor::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 6)
+        if (_id < 9)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 6;
+        _id -= 9;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 6)
+        if (_id < 9)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 6;
+        _id -= 9;
     }
     return _id;
 }

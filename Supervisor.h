@@ -13,6 +13,8 @@ typedef struct{
 
 typedef struct{
     QVector<ST_POINT>   line;
+    QString     color;
+    double      width;
 }ST_LINE;
 
 class Supervisor : public QObject
@@ -30,10 +32,13 @@ public:
     Q_ENUMS(TOOL_NUM);
 
     //Outlet Functions
+    Q_INVOKABLE int getCanvasSize();
     Q_INVOKABLE QVector<int> getLineX(int index);
     Q_INVOKABLE QVector<int> getLineY(int index);
+    Q_INVOKABLE QString getLineColor(int index);
+    Q_INVOKABLE double getLineWidth(int index);
 
-    Q_INVOKABLE void startLine();
+    Q_INVOKABLE void startLine(QString color, double width);
     Q_INVOKABLE void setLine(int x, int y);
     Q_INVOKABLE void stopLine();
 

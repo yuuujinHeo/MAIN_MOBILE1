@@ -12,13 +12,15 @@ import io.qt.Supervisor 1.0
 
 Window {
     visible: true
-    width: 1920
-    height: 1080
+    width: 1280
+    height: 800
     title: qsTr("Hello World")
     flags: Qt.Window | Qt.FramelessWindowHint
-    visibility: Window.FullScreen
+//    visibility: Window.FullScreen
 
     property int tool_num: 0
+    property int touch_mode: 0 //0:touch 1:mouse
+    property bool refresh_flag: false
     property int map_size: 800
     property int size_zoom: 0
     property int brush_size: 10
@@ -39,7 +41,7 @@ Window {
         id: btn_save
         width: 100
         height: 50
-        x: 1200
+        x: 1000
         y: 300
         color: "gray"
         Text{
@@ -49,12 +51,6 @@ Window {
         MouseArea{
             anchors.fill: parent
             onClicked: {
-                var ctx = canvas_map.getContext('2d');
-                size_zoom = 0;
-                area_map.moveX = 0;
-                area_map.moveY = 0;
-                ctx.drawImage(image_map,0,0,map_size,map_size);
-                canvas_map.requestPaint();
                 canvas_map.save("image/map1.png")
             }
         }
@@ -63,7 +59,7 @@ Window {
         id: btn_tool1
         width: 100
         height: 50
-        x: 1200
+        x: 1000
         y: 400
         color: "gray"
         Text{
@@ -81,7 +77,7 @@ Window {
         id: btn_tool2
         width: 100
         height: 50
-        x: 1200
+        x: 1000
         y: 500
         color: "gray"
         Text{
@@ -91,7 +87,8 @@ Window {
         MouseArea{
             anchors.fill: parent
             onClicked: {
-                tool_num = 2;
+//                tool_num = 2;
+                canvas_map.rePaint()
             }
         }
     }
@@ -99,8 +96,8 @@ Window {
         id: btn_tool3
         width: 100
         height: 50
-        x: 1400
-        y: 300
+        x: 1000
+        y: 600
         color: "gray"
         Text{
             anchors.centerIn: parent
@@ -110,19 +107,37 @@ Window {
             anchors.fill: parent
             onClicked: {
                 tool_num = 0;
-
-
-
-
                 //debug
-
-
-
-
             }
         }
     }
+    Row {
+        id: colorTools
+        x: 1000
+        y: 200
+        property color paintColor: "black"
+        spacing: 3
+        Repeater {
+            model: ["black", "gray", "white"]
+            Rectangle {
+                id: red
+                width: 50
+                height: 50
+                color: modelData
+                border.color: "gray"
+                border.width: 2
+                radius: 50
 
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked: {
+                        colorTools.paintColor = color
+                        tool_num = 1;
+                    }
+                }
+            }
+        }
+    }
     Rectangle{
         id: rect_map
         width: 800
@@ -131,7 +146,7 @@ Window {
 //        fillMode: Image.PreserveAspectCrop
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: parent.left;
-        anchors.leftMargin: 200
+        anchors.leftMargin: 100
 
         property int flag_image: 0
         border.width: 3
@@ -146,24 +161,69 @@ Window {
 
             property real lastX
             property real lastY
-            property var vlastX:({})
-            property var vlastY:({})
+            property var lineX
+            property var lineY
 //            scale: 1
             property var index: 0
+            property color color: colorTools.paintColor
+            property var lineWidth: 1
+
+            function rePaint(){
+                print("repaint")
+                var ctx = getContext("2d")
+                ctx.clearRect(0,0,canvas_map.width,canvas_map.height);
+                ctx.drawImage(image_map,0,0,image_map.width,image_map.height)
+                tool_num = 0;
+                refresh_flag = 1;
+            }
+
             onPaint:{
+                var ctx = getContext("2d")
+                if(refresh_flag){
+                    refresh_flag = false;
+                    for(var i=0; i<supervisor.getCanvasSize(); i++){
+                        ctx.lineWidth = supervisor.getLineWidth(i);
+                        ctx.strokeStyle = supervisor.getLineColor(i);
+                        ctx.lineCap = "round"
+                        ctx.beginPath()
+                        lineX = supervisor.getLineX(i);
+                        lineY = supervisor.getLineY(i);
+                        for(var j=0;j<lineX.length-1;j++){
+                            ctx.moveTo(lineX[j], lineY[j])
+                            ctx.lineTo(lineX[j+1], lineY[j+1])
+                        }
+                        ctx.stroke()
+                        print(i,ctx.lineWidth,ctx.strokeStyle);
+                    }
+                }
+
                 if(tool_num == 1){
-                    var ctx = getContext("2d")
-                    ctx.lineWidth = 1.5
-                    ctx.strokeStyle = "red"
+                    ctx.lineWidth = canvas_map.lineWidth
+                    ctx.strokeStyle = canvas_map.color
                     ctx.lineCap = "round"
                     ctx.beginPath()
                     ctx.moveTo(lastX, lastY)
                     lastX = area_map.mouseX
                     lastY = area_map.mouseY
-                    vlastX[index++] = lastX;
-                    print(vlastX.toString());
+                    supervisor.setLine(lastX,lastY);
                     ctx.lineTo(lastX, lastY)
                     ctx.stroke()
+                }else{
+                    //test
+                    for(var i=0; i<supervisor.getCanvasSize(); i++){
+                        ctx.lineWidth = supervisor.getLineWidth(i);
+                        ctx.strokeStyle = supervisor.getLineColor(i);
+                        ctx.lineCap = "round"
+                        ctx.beginPath()
+                        lineX = supervisor.getLineX(i);
+                        lineY = supervisor.getLineY(i);
+                        for(var j=0;j<lineX.length-1;j++){
+                            ctx.moveTo(lineX[j], lineY[j])
+                            ctx.lineTo(lineX[j+1], lineY[j+1])
+                        }
+                        print(i,ctx.lineWidth,ctx.strokeStyle);
+                        ctx.stroke()
+                    }
                 }
 
             }
@@ -204,31 +264,30 @@ Window {
                 property var startX : 0;
                 property var startY : 0;
                 property bool is_pressed : false;
-                hoverEnabled: tool_num==0?true:false
+                hoverEnabled: false;//tool_num==0?true:false
 
                 onWheel: {
-                    if(tool_num == 0){
-                        var ctx = canvas_map.getContext('2d');
-                        var new_scale;
-                        wheel.accepted = false;
-                        if(wheel.angleDelta.y > 0){
-                            new_scale = canvas_map.scale + 0.3;
-                            if(new_scale > 5){
-                                canvas_map.scale = 5;
-                            }else{
-                                canvas_map.scale = new_scale;
-                            }
+                    var ctx = canvas_map.getContext('2d');
+                    var new_scale;
+                    wheel.accepted = false;
+                    if(wheel.angleDelta.y > 0){
+                        new_scale = canvas_map.scale + 0.5;
+                        if(new_scale > 5){
+                            canvas_map.scale = 5;
                         }else{
-                            new_scale = canvas_map.scale - 0.3;
-                            if(new_scale < 1){
-                                canvas_map.scale = 1;
-                            }else{
-                                canvas_map.scale = new_scale;
-                            }
+                            canvas_map.scale = new_scale;
                         }
-                        print(canvas_map.scale,canvas_map.width,canvas_map.height,canvas_map.x,canvas_map.y)
-                        canvas_map.requestPaint()
+                    }else{
+                        new_scale = canvas_map.scale - 0.5;
+                        if(new_scale < 1){
+                            canvas_map.scale = 1;
+                        }else{
+                            canvas_map.scale = new_scale;
+                        }
                     }
+                    print(canvas_map.scale,canvas_map.width,canvas_map.height,canvas_map.x,canvas_map.y)
+//                        canvas_map.requestPaint()
+
 
                 }
 
@@ -239,7 +298,8 @@ Window {
                     canvas_map.lastX = mouseX;
                     canvas_map.lastY = mouseY;
                     if(tool_num == 1){
-
+                        supervisor.startLine(canvas_map.color, canvas_map.lineWidth);
+                        supervisor.setLine(mouseX,mouseY);
                     }
                 }
                 onReleased: {
@@ -247,6 +307,9 @@ Window {
                     if(tool_num == 0){
                         moveX = moveX+dmoveX;
                         moveY = moveY+dmoveY;
+                    }
+                    if(tool_num == 1){
+                        supervisor.stopLine();
                     }
                 }
                 onPositionChanged: {

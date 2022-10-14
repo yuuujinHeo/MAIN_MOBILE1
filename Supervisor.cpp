@@ -25,9 +25,9 @@ void Supervisor::onTimer(){
     static int flag = 0;
     if(tmr_cnt++ > 50){
         if(flag == 0){
-            qDebug() << "HERE";
-            flag = 1;
-            QMetaObject::invokeMethod(mMain,"initdone");
+//            qDebug() << "HERE";
+//            flag = 1;
+//            QMetaObject::invokeMethod(mMain,"initdone");
 //            QMetaObject::invokeMethod(mMain,"gotiniterror");
         }
     }
@@ -37,6 +37,9 @@ void Supervisor::setWindow(QQuickWindow *Window){
     mMain = Window;
 }
 
+int Supervisor::getCanvasSize(){
+    return canvas.size();
+}
 QVector<int> Supervisor::getLineX(int index){
     QVector<int>    temp_x;
     for(int i=0; i<canvas[index].line.size(); i++){
@@ -52,6 +55,21 @@ QVector<int> Supervisor::getLineY(int index){
     return temp_y;
 }
 
+QString Supervisor::getLineColor(int index){
+    if(index < canvas.size()){
+        return canvas[index].color;
+    }
+    return "";
+}
+
+double Supervisor::getLineWidth(int index){
+    if(index < canvas.size()){
+        return canvas[index].width;
+    }
+    return 0;
+}
+
+
 void Supervisor::setLine(int x, int y){
     ST_POINT temp_point;
     temp_point.x = x;
@@ -59,17 +77,25 @@ void Supervisor::setLine(int x, int y){
     temp_line.line.push_back(temp_point);
 }
 
-void Supervisor::startLine(){
+void Supervisor::startLine(QString color, double width){
     temp_line.line.clear();
+    temp_line.color = color;
+    temp_line.width = width;
+
+    qDebug() << "startLine : " << color << width;
 }
 void Supervisor::stopLine(){
     canvas.push_back(temp_line);
 
-    for(int i=0; i<canvas.size(); i++){
-        qDebug() << i << " th line =================";
-        for(int j=0; j<canvas[i].line.size(); j++){
-            cout << canvas[i].line[j].x;
-        }
-        cout << endl;
-    }
+//    for(int i=0; i<canvas.size(); i++){
+//        qDebug() << i << " th line =================";
+//        for(int j=0; j<canvas[i].line.size(); j++){
+//            cout << canvas[i].line[j].x << ",";
+//        }
+//        cout << endl;
+//        for(int j=0; j<canvas[i].line.size(); j++){
+//            cout << canvas[i].line[j].y << ",";
+//        }
+//        cout << endl;
+//    }
 }
