@@ -3,5 +3,13 @@
         <file>main.qml</file>
         <file>Test.qml</file>
         <file>build/image/map.png</file>
+        <file>build/icon/icon_clear.png</file>
+        <file>build/icon/icon_folder.png</file>
+        <file>build/icon/icon_mouse.png</file>
+        <file>build/icon/icon_redo.png</file>
+        <file>build/icon/icon_save.png</file>
+        <file>build/icon/icon_touch.png</file>
+        <file>build/icon/icon_undo.png</file>
+        <file>build/icon/add.png</file>
     </qresource>
 </RCC>

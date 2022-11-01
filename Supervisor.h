@@ -5,6 +5,8 @@
 #include <QTimer>
 #include <QThread>
 #include <QQuickWindow>
+#include "GlobalHeader.h"
+#include "DBHandler.h"
 
 typedef struct{
     int x;
@@ -33,6 +35,7 @@ public:
 
     //Outlet Functions
     Q_INVOKABLE int getCanvasSize();
+    Q_INVOKABLE int getRedoSize();
     Q_INVOKABLE QVector<int> getLineX(int index);
     Q_INVOKABLE QVector<int> getLineY(int index);
     Q_INVOKABLE QString getLineColor(int index);
@@ -42,10 +45,22 @@ public:
     Q_INVOKABLE void setLine(int x, int y);
     Q_INVOKABLE void stopLine();
 
-//    Logger *logger;
-//    DBHandler  *dbHandler;
+    Q_INVOKABLE void undo();
+    Q_INVOKABLE void redo();
+    Q_INVOKABLE void clear_all();
+
+    Q_INVOKABLE QString getMapURL();
+    Q_INVOKABLE void setMapURL(QString url);
+
+    Q_INVOKABLE QString getDBvalue(QString name);
+
+    DBHandler  *dbHandler;
     QVector<ST_LINE>    canvas;
+    QVector<ST_LINE>    canvas_redo;
+    int flag_clear;
     ST_LINE   temp_line;
+
+
 public slots:
     void onTimer();
 

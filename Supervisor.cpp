@@ -16,8 +16,11 @@ Supervisor::Supervisor(QObject *parent)
     connect(timer, SIGNAL(timeout()),this,SLOT(onTimer()));
     timer->start(200);
     canvas.clear();
+    flag_clear = 0;
     //Keep watching...
     setWindow(qobject_cast<QQuickWindow*>(object));
+
+    dbHandler = new DBHandler();
 }
 void Supervisor::onTimer(){
     static int tmr_cnt = 0;
@@ -39,6 +42,10 @@ void Supervisor::setWindow(QQuickWindow *Window){
 
 int Supervisor::getCanvasSize(){
     return canvas.size();
+}
+int Supervisor::getRedoSize(){
+    qDebug() <<canvas_redo.size();
+    return canvas_redo.size();
 }
 QVector<int> Supervisor::getLineX(int index){
     QVector<int>    temp_x;
@@ -75,6 +82,7 @@ void Supervisor::setLine(int x, int y){
     temp_point.x = x;
     temp_point.y = y;
     temp_line.line.push_back(temp_point);
+
 }
 
 void Supervisor::startLine(QString color, double width){
@@ -86,16 +94,57 @@ void Supervisor::startLine(QString color, double width){
 }
 void Supervisor::stopLine(){
     canvas.push_back(temp_line);
+    canvas_redo.clear();
+}
 
-//    for(int i=0; i<canvas.size(); i++){
-//        qDebug() << i << " th line =================";
-//        for(int j=0; j<canvas[i].line.size(); j++){
-//            cout << canvas[i].line[j].x << ",";
-//        }
-//        cout << endl;
-//        for(int j=0; j<canvas[i].line.size(); j++){
-//            cout << canvas[i].line[j].y << ",";
-//        }
-//        cout << endl;
-//    }
+void Supervisor::undo(){
+    ST_LINE temp;
+    if(canvas.size() > 0){
+        temp = canvas.back();
+        canvas.pop_back();
+        canvas_redo.push_back(temp);
+
+        qDebug() << "UNDO [canvas size = "<<canvas.size() << "] redo size = " << canvas_redo.size();
+    }
+}
+
+void Supervisor::redo(){
+    if(canvas_redo.size() > 0){
+        if(flag_clear == 1){
+            flag_clear = 0;
+            if(canvas.size() > 0){
+
+            }else{
+                canvas = canvas_redo;
+                canvas_redo.clear();
+            }
+        }else{
+            canvas.push_back(canvas_redo.back());
+            canvas_redo.pop_back();
+        }
+        qDebug() << "REDO [canvas size = "<<canvas.size() << "] redo size = " << canvas_redo.size();
+    }
+}
+
+QString Supervisor::getMapURL(){
+    return dbHandler->DBbase["map_url"];
+}
+
+void Supervisor::setMapURL(QString url){
+    dbHandler->editDataBase("map_url",url);
+}
+
+QString Supervisor::getDBvalue(QString name){
+    return dbHandler->DBbase[name];
+}
+
+void Supervisor::clear_all(){
+    canvas_redo.clear();
+    for(int i=0; i<canvas.size(); i++){
+        canvas_redo.push_back(canvas[i]);
+        flag_clear = 1;
+    }
+    canvas.clear();
+    qDebug() << "CLEAR [canvas size = "<<canvas.size() << "] redo size = " << canvas_redo.size();
+
 }

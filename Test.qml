@@ -9,7 +9,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///*
-import QtQuick 2.12
+//import QtQuick 2.12
 //import QtQuick.Window 2.12
 //import QtQuick.Controls 2.12
 //import QtQuick.Shapes 1.12
@@ -440,3 +440,90 @@ import QtQuick 2.12
 ////        polygon.addCoordinate(coordinate)
 ////    }
 ////}
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//import QtQuick 2.5
+//import QtQuick.Window 2.1
+
+//Window {
+//    id: window
+//    visible: true
+//    width: 1280; height: 960
+
+//    Item {
+//        id: root
+//        anchors.fill: parent
+
+//        Repeater {
+//            model: 4
+
+//            Repeater {
+//                property var j: modelData
+
+//                model: 4
+
+//                Rectangle {
+//                    property var i: modelData
+
+//                    x: parent.width*i/4; y: parent.height*j/4
+//                    width: 64; height: 64
+//                    color: Qt.rgba(i/4, j/4, 0, 1)
+
+//                    MultiPointTouchArea {
+//                        property var drag: parent
+//                        property var offset: null
+
+//                        anchors.fill: parent
+//                        enabled: true
+
+//                        minimumTouchPoints: 1
+//                        maximumTouchPoints: 1
+
+//                        function dragMove(holder, point) {
+//                            if (point && drag) {
+//                                var position = holder.mapFromItem(drag, point.x, point.y);
+//                                drag.x = position.x - offset.x;
+//                                drag.y = position.y - offset.y;
+//                            }
+//                        }
+
+//                        onPressed: {
+//                            //console.log("onTouchPressed");
+//                            var point = touchPoints[0];
+//                            offset = Qt.point(point.x, point.y);
+//                            dragMove(root, point);
+//                        }
+
+//                        onTouchUpdated: {
+//                            //console.log("onTouchUpdated");
+//                            var point = touchPoints[0];
+//                            dragMove(root, point);
+//                        }
+
+//                        onReleased: {
+//                            //console.log("onTouchReleased");
+//                            var point = touchPoints[0];
+//                            dragMove(root, point);
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
+//}
