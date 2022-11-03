@@ -1,0 +1,5 @@
+struct command
+{
+    int32_t cmd;
+    int8_t params[255];
+}

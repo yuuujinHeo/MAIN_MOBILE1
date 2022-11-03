@@ -1,6 +1,0 @@
-<?xml version="1.0"?>
-<RCC>
-    <qresource prefix="/">
-        <file alias="build/image/map.png">image/map.png</file>
-    </qresource>
-</RCC>

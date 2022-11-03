@@ -1,4 +1,4 @@
-QT += quick widgets network websockets sql
+QT += quick widgets network websockets sql quickcontrols2
 
 CONFIG += c++11
 
@@ -15,6 +15,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         DBHandler.cpp \
+        LCMHandler.cpp \
         Logger.cpp \
         Supervisor.cpp \
         main.cpp
@@ -35,5 +36,12 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     DBHandler.h \
     GlobalHeader.h \
+    LCMHandler.h \
     Logger.h \
     Supervisor.h
+
+
+# LCM
+INCLUDEPATH += /usr/local/include/
+LIBS += -L/usr/local/lib/
+LIBS += -llcm

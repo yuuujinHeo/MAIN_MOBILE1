@@ -1,0 +1,13 @@
+struct map_meta_data
+{
+    string map_name;
+    int32_t width;
+    int32_t height;
+    float grid_width;
+    int32_t	map_origin[2];
+    int32_t	num_loc;
+    int32_t	locations_type[num_loc];
+    float	locations_x[num_loc];
+    float	locations_y[num_loc];
+    float	locations_th[num_loc];
+}

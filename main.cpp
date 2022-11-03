@@ -16,8 +16,6 @@ int main(int argc, char *argv[])
 
     app.setOrganizationName("Mobile");
     app.setOrganizationDomain("Mobile");
-
-
     qmlRegisterType<Supervisor>("io.qt.Supervisor",1,0, "Supervisor");
 
     QQmlApplicationEngine engine;
@@ -29,7 +27,7 @@ int main(int argc, char *argv[])
     }, Qt::QueuedConnection);
     engine.rootContext()->setContextProperty("applicationDirPath", QGuiApplication::applicationDirPath());
     engine.load(url);
-    object = engine.rootObjects()[0];
 
+    object = engine.rootObjects()[0];
     return app.exec();
 }
